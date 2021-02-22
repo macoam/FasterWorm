@@ -1,11 +1,11 @@
 from OpenGL.GL import *
 from glew_wish import *
 import glfw
-import random
-from math import *
-import sys
+import random #aparecion de frutas random
+from math import * #figuras
+import sys #cierre de juego
 
-#Posiciones
+#Posiciones de todo (gusano, gusanito y alimentos), el delta es para que el gusano tenga el movimiento que tiene (se mueve de acuerdo a la cabeza)
 posX_gusano = 0.0
 posY_gusano = 0.0
 
@@ -44,23 +44,26 @@ posY_gusanito4 = -0.6
 posX_gusanito5 = 0.7
 posY_gusanito5 = 0.6
 
-#Condiciones
+#Condiciones (a donde se está moviendo)
 condicionMovXP = False
 condicionMovXN = False
 condicionMovYP = False
 condicionMovYN = False
 
-#Movimiento
+#Movimiento (la velocidad del gusano y gusanito)
 tiempo = 0.0
 tiempoAnterior = 0.0
 velocidad = 0.3
 velocidadGusanitos = velocidad * 0.5
-#Colisiones
+
+#Colisiones (de los alimentos y los bordes)
 colisionAlimento = 0
 colisionPerder = False
 
-#score
+#Score
 score = -1
+
+#Colision de los alimentos y bordes (puntos)
 
 def checar_colisiones():
     global colisionPerder
@@ -131,7 +134,7 @@ def checar_colisiones():
         posY_gusanito5 = 1.05
         posX_gusanito5 = 0.7
 
-
+#Colisiones de los alimentos (incremento de puntos cada vez que el gusano toque los alimentos)
     if posX_gusano + 0.05 > posX_alimento1 - 0.05 and posX_gusano - 0.05 < posX_alimento1 + 0.05 and posY_gusano + 0.05 > posY_alimento1 - 0.05 and posY_gusano - 0.05 < posY_alimento1 + 0.05:
         colisionAlimento = 1
         posX_alimento1 = -1.5
@@ -382,6 +385,8 @@ def checar_colisiones():
         velocidad += 0.05
         score += 1
     
+#Variables
+
 def actualizar(window):
     global tiempo
     global tiempoAnterior
@@ -406,6 +411,8 @@ def actualizar(window):
     global condicionMovYP
     global condicionMovYN
 
+ #Tiempo del gusano y gusanito
+
     tiempo = glfw.get_time()
     deltatime = tiempo - tiempoAnterior
     movimiento = velocidad * deltatime
@@ -419,6 +426,8 @@ def actualizar(window):
     posY_gusanito4 = posY_gusanito4 + movGusanitos
     posX_gusanito5 = posX_gusanito5 - movGusanitos
     posY_gusanito5 = posY_gusanito5 - movGusanitos
+
+    #Teclado de jugabilidad
 
     estado_tecla_izquierda = glfw.get_key(window, glfw.KEY_LEFT)
     estado_tecla_derecha = glfw.get_key(window, glfw.KEY_RIGHT)
